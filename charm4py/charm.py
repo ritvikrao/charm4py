@@ -7,13 +7,8 @@
 #
 import sys
 import os
-
-if sys.version_info < (3, 0, 0):
-    import cPickle
-    from cStringIO import StringIO
-else:
-    import pickle as cPickle
-    from io import StringIO
+import pickle as cPickle
+from io import StringIO
 import inspect
 import time
 import gc
@@ -623,10 +618,7 @@ class Charm(object):
             ), "More than one entry point has been specified"
             self.mainchareRegistered = True
             # make mainchare constructor always a coroutine
-            if sys.version_info < (3, 0, 0):
-                entry_method.coro(C.__init__.im_func)
-            else:
-                entry_method.coro(C.__init__)
+            entry_method.coro(C.__init__)
         charm_type = chare.charm_type_id_to_class[charm_type_id]
         # print("charm4py: Registering class " + C.__name__, "as", charm_type.__name__, "type_id=", charm_type_id, charm_type)
         profilingOn = self.options.profiling
@@ -688,12 +680,8 @@ class Charm(object):
         from .pool import PoolScheduler, Worker
 
         if self.interactive:
-            if sys.version_info < (3, 0, 0):
-                entry_method.coro(PoolScheduler.start.im_func)
-                entry_method.coro(PoolScheduler.startSingleTask.im_func)
-            else:
-                entry_method.coro(PoolScheduler.start)
-                entry_method.coro(PoolScheduler.startSingleTask)
+            entry_method.coro(PoolScheduler.start)
+            entry_method.coro(PoolScheduler.startSingleTask)
         self.register(PoolScheduler, (ARRAY,))
         self.register(Worker, (GROUP,))
 

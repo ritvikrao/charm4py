@@ -3,11 +3,8 @@ from functools import reduce
 import operator as op
 from itertools import chain
 import sys
+import pickle as cPickle
 
-if sys.version_info[0] < 3:
-    import cPickle
-else:
-    import pickle as cPickle
 try:
     import numpy as np
 
@@ -345,9 +342,8 @@ class ReductionManager(object):
             "f": C_FLOAT,
             "d": C_DOUBLE,
         }
-        if sys.version_info >= (3, 3, 0):
-            self.array_type_map["q"] = C_LONG_LONG
-            self.array_type_map["Q"] = C_ULONG_LONG
+        self.array_type_map["q"] = C_LONG_LONG
+        self.array_type_map["Q"] = C_ULONG_LONG
 
         # verify that mapping is correct
         for dt, c_type in self.array_type_map.items():

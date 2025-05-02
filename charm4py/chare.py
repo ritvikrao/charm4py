@@ -712,8 +712,7 @@ class Group(object):
             f.__qualname__ = proxyClassName + "." + m.name
             f.__name__ = m.name
             M[m.name] = f
-        if cls == CharmRemote and sys.version_info >= (3, 0, 0):
-            # TODO remove this and change rexec to exec when Python 2 support is dropped
+        if cls == CharmRemote:
             M["exec"] = M["rexec"]
         M["__init__"] = group_proxy_ctor
         M["__getitem__"] = group_proxy_elem

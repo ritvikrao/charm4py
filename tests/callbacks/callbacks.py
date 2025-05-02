@@ -37,8 +37,6 @@ class CallbackReceiver(Chare):
 class Main(Chare):
 
     def __init__(self, args):
-        if sys.version_info < (3, 0, 0):  # not supported in Python 2.7
-            exit()
         assert charm.numPes() >= 4
         self.done = -1
         workers = Group(Worker)
